@@ -55,24 +55,40 @@ mongo.MongoClient.connect(uri, { useUnifiedTopology: true }, (err, client) => {
     * @desc  Upload a file to GridFS
     */
    app.post('/upload', (req, res) => {
+
+      // Create Busboy instance
       const busboy = new Busboy({ headers: req.headers });
+
+      // Listen for files in the request stream
       busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
          let writable;
+
+         // When receiving data open upload stream and start sending data
          file.on('data', data => {
             if (!writable) writable = GridFS.openUploadStreamWithId(uuid4(), filename, { contentType: mimetype });
             writable.write(data, null, err => console.log('write', err));
          });
+
+         // Stop sending data when no more data is received
          file.on('end', () => {
             if (writable) writable.end(null, null, (err, result) => console.log('end', err, result));
          });
       });
+
+      // Listen for any other non-file fields
       busboy.on('field', (fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) => {
-         console.log('Field [' + fieldname + ']: value: ' + val, fieldnameTruncated, valTruncated, encoding, mimetype);
+         req.body[fieldname] = val;
       });
+
+      // Run when busboy read all the data from the request stream
       busboy.on('finish', () => {
+         console.log('request body:', req.body);
          res.redirect('/');
       });
+
+      // Pipe request stream into busboy
       req.pipe(busboy);
+
    });
 
    /**
