@@ -32,7 +32,7 @@
           <% files.forEach(function(file) { %>
             <div class="card card-body mb-3">
               <% if(file.isImage) { %>
-                <img src="image/<%= file.filename %>" alt="">
+                <img src="image/<%= file._id %>" alt="">
                 <% } else { %>
                   <%= file.filename %>
                     <% } %>
