@@ -8,4 +8,4 @@ GridFS allows developers to store files in MongoDB that exceed the 16 MB limit o
 
 # Credit
 
-This project is based on [Brad Traversy](https://github.com/bradtraversy)'s [mongo_file_uploads](https://github.com/bradtraversy/mongo_file_uploads) repository, but here we use MongoDBs native functions instead of third party packages for streaming files to and from the database. This project also utilizes the newer GridFSBucket class, instead of the now depricated GridStore class used in the aforementioned third party packages.
+This project is based on [Brad Traversy](https://github.com/bradtraversy)'s [mongo_file_uploads](https://github.com/bradtraversy/mongo_file_uploads) repository, but here we use MongoDBs native functions instead of third party packages for streaming files to and from the database. This project also utilizes the newer GridFSBucket api, instead of the now depricated GridStore used in the aforementioned third party packages.
